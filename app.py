@@ -1,35 +1,29 @@
 import streamlit as st
 
-st.set_page_config(page_title="Calculadora Puntaje Docente", page_icon="📚")
+st.set_page_config(page_title="Cargos Posibles 108A", page_icon="📋")
 
-st.title("📚 Calculadora de Puntaje Docente")
-st.write("Simulador básico para Provincia de Buenos Aires")
-
-st.divider()
-
-st.subheader("Antigüedad")
-
-anios_antiguedad = st.number_input("Años de antigüedad", min_value=0, max_value=50, value=0)
-puntaje_antiguedad = anios_antiguedad * 0.50
-
-st.subheader("Cursos")
-
-cantidad_cursos = st.number_input("Cantidad de cursos aprobados", min_value=0, max_value=100, value=0)
-puntaje_cursos = cantidad_cursos * 0.20
-
-st.subheader("Títulos")
-
-titulo_extra = st.checkbox("Posee título adicional")
-puntaje_titulo = 1.0 if titulo_extra else 0
+st.title("📋 ¿A qué cargos puedo postularme?")
+st.write("Basado en Oblea 108A 2026 - Ferreyra Matías")
 
 st.divider()
 
-total = puntaje_antiguedad + puntaje_cursos + puntaje_titulo
+# Puntajes relevantes
+cargos = {
+    "Equipo de Orientación Escolar (OE)": 28.00,
+    "Equipo de Orientación Escolar (SOE)": 28.00,
+    "Psicología GP/MR": 27.50,
+    "Profesor CENS (CMS/CNA)": 26.00,
+    "Profesor Adultos PR": 25.75,
+    "Secundaria CCD/PIC": 25.50,
+    "Secundaria SAT/SST/STY": 23.50
+}
 
-st.subheader("Resultado")
+st.subheader("Análisis de Competitividad")
 
-st.write(f"Puntaje por antigüedad: {puntaje_antiguedad:.2f}")
-st.write(f"Puntaje por cursos: {puntaje_cursos:.2f}")
-st.write(f"Puntaje por título adicional: {puntaje_titulo:.2f}")
-
-st.success(f"Puntaje Total: {total:.2f}")
+for cargo, puntaje in cargos.items():
+    if puntaje >= 27:
+        st.success(f"🟢 ALTA PROBABILIDAD → {cargo} ({puntaje})")
+    elif 25 <= puntaje < 27:
+        st.warning(f"🟡 PROBABILIDAD MEDIA → {cargo} ({puntaje})")
+    else:
+        st.error(f"🔴 PROBABILIDAD BAJA → {cargo} ({puntaje})")
